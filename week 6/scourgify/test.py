@@ -1,0 +1,23 @@
+import csv
+import sys
+
+
+if len(sys.argv) ==3:
+    try:
+        with open(sys.argv[1]) as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                last_name , first_name = (row["name"]).split(", ")
+                house = row["house"]
+                with open(sys.argv[2],"a") as file_2:
+                    writer = csv.DictWriter(file_2 , fieldnames = ["first","last","house"])
+                    # writing headers (field names)
+                    writer.writeheader()
+                    writer.writerow({"first": first_name , "last": last_name , "house": house })
+    except FileNotFoundError:
+        sys.exit(f"Could not read {sys.argv[1]}")
+
+if len(sys.argv) > 3:
+    sys.exit("Too many command-line arguments")
+if len(sys.argv) < 3:
+    sys.exit("Too few command-line arguments")
